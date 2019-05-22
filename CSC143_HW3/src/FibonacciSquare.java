@@ -30,7 +30,12 @@ public class FibonacciSquare extends AbstractShape {
     children = new Shape[1];
   }
   
-  //xₐ = (φⁿ - ψⁿ) / √5
+  /**
+   * 
+   * @param n as in the nth Fibonacci term
+   * @return the nth Fibonacci term scaled by 5. 
+   */
+  
   public static int FibonacciNumber(int n) {
     int n1 = 0;
     int n2 = 1;
@@ -124,11 +129,11 @@ public class FibonacciSquare extends AbstractShape {
     return false;
    }
   
-  @Override
-  public String toString() {
-    return ("Fib square: {" + "x: " + this.x + ", y: " + this.y + ", color: " + this.c.toString()
-      + ", quadrant: " + this.quadrant + ", n: " + this.n +"}");
-  }
+//  @Override
+//  public String toString() {
+//    return ("Fib square: {" + "x: " + this.x + ", y: " + this.y + ", color: " + this.c.toString()
+//      + ", quadrant: " + this.quadrant + ", n: " + this.n +"}");
+//  }
   
   
   //

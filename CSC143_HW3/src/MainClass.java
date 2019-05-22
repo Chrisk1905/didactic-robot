@@ -21,7 +21,7 @@ public class MainClass {
     frame.setVisible(true);
 
     DrawingModel model = new DrawingModel();
-    Shape s2 = new FibonacciSquare(350, 250, Color.BLUE, 1, 1);
+    Shape s2 = new FibonacciSquare(350, 250, Color.BLUE, 3, 3);
     model.addShape(s2);
     
     s2.createChildren();
@@ -30,6 +30,7 @@ public class MainClass {
     model.addShape(s2.getChildren()[0]);
     model.addShape(s2.getChildren()[0].getChildren()[0]);
     model.addShape(s2.getChildren()[0].getChildren()[0].getChildren()[0]);
+    
     //the first deep child dc the first
     Shape dc = s2.getChildren()[0].getChildren()[0].getChildren()[0];
     dc.createChildren();
@@ -46,20 +47,10 @@ public class MainClass {
     model.addShape(dc4);
     model.addShape(dc5);
     
-    dc5.createChildren();
+    //Shape addLevel() test
+    dc5.addLevel();
     Shape dc6 = dc5.getChildren()[0];
-    dc6.createChildren();
-    Shape dc7 = dc6.getChildren()[0];
-    dc7.createChildren();
-    Shape dc8 = dc7.getChildren()[0];
-    dc8.createChildren();
-    Shape dc9 = dc8.getChildren()[0];
-
     model.addShape(dc6);
-    model.addShape(dc7);
-    model.addShape(dc8);
-    model.addShape(dc9);
-    
     
     model.addView(panel);
   }
