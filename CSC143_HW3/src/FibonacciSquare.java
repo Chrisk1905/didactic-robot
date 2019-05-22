@@ -7,9 +7,10 @@ import java.awt.Graphics;
  * Size does not use scaling.  
  */
 public class FibonacciSquare extends AbstractShape {
-
+    
   int quadrant;
   int n;
+  
   /**
    * 
    * @param x coordinate upper-left corner of the square
@@ -26,6 +27,7 @@ public class FibonacciSquare extends AbstractShape {
     this.quadrant = quadrant;
     this.n = n;
     this.size = FibonacciNumber(n);
+    children = new Shape[1];
   }
   
   //xₐ = (φⁿ - ψⁿ) / √5
@@ -38,7 +40,9 @@ public class FibonacciSquare extends AbstractShape {
       n1 = n2;
       n2 = n3;
     }
-    return n = n1;
+    n = n1;
+    //scaling: n * scale
+    return n*5;
   }
   @Override
   public void draw(Graphics g) {
@@ -57,8 +61,7 @@ public class FibonacciSquare extends AbstractShape {
       break;
     case 4:
       g.drawArc(x-size, y-size, size*2, size*2, 270, 90);
-      break;
-      
+      break; 
     }
   }
   
@@ -70,6 +73,44 @@ public class FibonacciSquare extends AbstractShape {
     int n = this.n;
     return new FibonacciSquare(x, y, c, quadrant, n);
   }
+  //createChildren(),getChildren()
+  public boolean createChildren() {
+    int childQ = (this.quadrant+1)%5;
+    if(childQ == 0) {
+      childQ=1;
+    }
+    System.out.println(childQ);
+    int childX=this.x;
+    int childY=this.y;
+    int childSize=FibonacciNumber(this.n+1);
+    
+    switch(childQ) {
+    case 1:
+      //"center" the X 
+      childX-=(childSize-this.size);
+      childY-=childSize;
+      break;
+    case 2:
+      childX-=childSize;
+      break;
+    case 3:
+      childY+=this.size;
+      break;
+    case 4:
+      childX+=this.size;
+      //"center" the Y
+      childY-=(childSize-this.size);
+      break;
+    }
+    
+    children[0] = new FibonacciSquare(childX, childY, this.c, childQ,this.n+1);
+    return true;
+  }
+  
+  public Shape[] getChildren() {
+    return children;
+  }
+  
   
   @Override
   public boolean equals(Object o) {
