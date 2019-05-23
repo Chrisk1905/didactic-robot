@@ -15,8 +15,8 @@ public abstract class AbstractShape implements Shape {
   int size;
   //an array of children shapes a level below the parent shape
   protected Shape[] children;
-  //level of shape. 1 by default
-  int level;
+  //generation of shape. 1 by default
+  int gen;
   
   public AbstractShape(int x, int y, Color c, int size) {
     this.x = x;
@@ -42,7 +42,7 @@ public abstract class AbstractShape implements Shape {
     return false;
   }
   public boolean removeLevel() {
-    if(this.level==1 && children[0]==null) {
+    if(this.gen==1 && children[0]==null) {
       //cannot remove level when there is only 1 level
       return false;
     }else if(children[0].getChildren()[0]==null){
@@ -58,6 +58,14 @@ public abstract class AbstractShape implements Shape {
     return false;
   }
   
+  public int getLevel() {
+    if(children[0]==null) {
+      return 1;
+    }else {
+      return children[0].getLevel() + 1;
+    }
+  }
+  
   public Shape[] getChildren() {
     return children;
   }
@@ -65,7 +73,7 @@ public abstract class AbstractShape implements Shape {
   
   public String toString() {
     return ("[" + this.getClass() + ", x: " + this.x + ", y: " + this.y
-        + ", color: " + this.c.toString() + ", level:" + this.level + "];");
+        + ", color: " + this.c.toString() + ", level:" + getLevel() + "];");
   }
   
 }

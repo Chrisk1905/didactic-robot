@@ -4,7 +4,8 @@ import java.awt.Graphics;
 /**
  * FibonacciSquare, with the (x,y) being the upper-left corner.
  * The size of the square is the nth term of the Fibonacci sequence. 
- * size uses a scaling of 5 
+ * Size uses a scaling of 5 and cannot exceed n=10th Fibonacci term.
+ * 
  */
 public class FibonacciSquare extends AbstractShape {
     
@@ -25,7 +26,7 @@ public class FibonacciSquare extends AbstractShape {
     this.quadrant = quadrant;
     this.n = n;
     children = new Shape[1];
-    this.level=1;
+    this.gen=1;
   }
   
   /**
@@ -52,6 +53,22 @@ public class FibonacciSquare extends AbstractShape {
     //draw shapes in every level
     // base case no more levels.
     if(children[0]==null) {
+      g.setColor(c);
+      g.drawRect(x, y, size, size);
+      switch (quadrant) {
+      case 1:
+        g.drawArc(x-size, y, size*2, size*2, 0, 90);
+        break;
+      case 2:
+        g.drawArc(x, y, size*2, size*2, 90, 90);
+        break;
+      case 3:
+        g.drawArc(x, y-size, size*2, size*2, 180, 90);
+        break;
+      case 4:
+        g.drawArc(x-size, y-size, size*2, size*2, 270, 90);
+        break; 
+      }
       return;
     }else {
       //else draw the shape
@@ -77,6 +94,7 @@ public class FibonacciSquare extends AbstractShape {
   }
   
 /**
+ * child cannot exceed n=10
  * You should not call this method outside testing purposes
  * Use addLevel to add an entire level of children
  * Return a boolean to the model to tell it if a new level could be added.
@@ -84,6 +102,10 @@ public class FibonacciSquare extends AbstractShape {
  * If a new level could not be added, then the controller displays a message box to the user explaining why
  */
   public boolean createChildren() {
+    //if n+1 is greater than 10 child will be too big
+    if(this.n>9) {
+      return false;
+    }
     int childQ = (this.quadrant+1)%5;
     if(childQ == 0) {
       childQ=1;
@@ -113,7 +135,7 @@ public class FibonacciSquare extends AbstractShape {
     
     children[0] = new FibonacciSquare(childX, childY, this.c, childQ,this.n+1);
     FibonacciSquare child = (FibonacciSquare) children[0];
-    child.level+=this.level;
+    child.gen+=this.gen;
     return true;
   }
   

@@ -33,8 +33,17 @@ public interface Shape {
    */
   Shape[] getChildren();
   
+  /**
+   * check if the given (x,y) coordinates are in the shape
+   * @param x
+   * @param y
+   * @return
+   */
   boolean contains(int x, int y);
   
-
+  /**
+   * returns an int of how many levels the shape has
+   */
+  int getLevel();
 
 }

@@ -18,7 +18,7 @@ public class HShape extends AbstractShape {
 	public HShape(int x, int y, Color c, int size) {
 		super(x, y, c, size);
 		children = new Shape[7];
-		level=1;
+		gen=1;
 	}
 
 	@Override
@@ -94,7 +94,7 @@ public class HShape extends AbstractShape {
         //give children +1 level field
         for(Shape s : children) {
           HShape child = (HShape)s;
-          child.level += this.level;
+          child.gen += this.gen;
         }
         return true;
       } else {
