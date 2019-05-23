@@ -15,31 +15,57 @@ public abstract class AbstractShape implements Shape {
   int size;
   //an array of children shapes a level below the parent shape
   protected Shape[] children;
+  //level of shape. 1 by default
+  int level;
+  
+  public AbstractShape(int x, int y, Color c, int size) {
+    this.x = x;
+    this.y = y;
+    this.c = c;
+    this.size = size;
+  }
   
   /**
    * add a level of children shapes 
    * @return
    */
   public boolean addLevel() {
-    if(children[0]!=null) {
+    if(children[0]==null) {
+      createChildren();
+    }else {
       for(Shape s:children) {
         s.addLevel();
       }
-    }else {
-      createChildren();
-      return true;
     }
-    //error 1200 
-    //this should never happen 
+    //to-do later
+    //return false if spiral has reached size constraint 
     return false;
   }
   public boolean removeLevel() {
-    //last level of children are deleted 
+    if(this.level==1 && children[0]==null) {
+      //cannot remove level when there is only 1 level
+      return false;
+    }else if(children[0].getChildren()[0]==null){
+      //if the children array of the index 0 child in this object's children array is null 
+      children[0]=null;
+      return true;
+    }else {
+      //go a level deeper deeper
+      for(Shape s:children) {
+        return s.removeLevel();
+      }
+    }
     return false;
   }
   
+  public Shape[] getChildren() {
+    return children;
+  }
+  
+  
   public String toString() {
-    return ( this.getClass() + ", x: " + this.x + ", y: " + this.y + ", color: " + this.c.toString());
+    return ("[" + this.getClass() + ", x: " + this.x + ", y: " + this.y
+        + ", color: " + this.c.toString() + ", level:" + this.level + "];");
   }
   
 }

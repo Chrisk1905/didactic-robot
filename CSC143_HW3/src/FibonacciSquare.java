@@ -4,7 +4,7 @@ import java.awt.Graphics;
 /**
  * FibonacciSquare, with the (x,y) being the upper-left corner.
  * The size of the square is the nth term of the Fibonacci sequence. 
- * Size does not use scaling.  
+ * size uses a scaling of 5 
  */
 public class FibonacciSquare extends AbstractShape {
     
@@ -21,13 +21,11 @@ public class FibonacciSquare extends AbstractShape {
    *  
    */
   public FibonacciSquare(int x, int y, Color c, int quadrant, int n) {
-    this.x = x;
-    this.y = y;
-    this.c = c;
+    super(x,y,c,FibonacciNumber(n));
     this.quadrant = quadrant;
     this.n = n;
-    this.size = FibonacciNumber(n);
     children = new Shape[1];
+    this.level=1;
   }
   
   /**
@@ -47,7 +45,7 @@ public class FibonacciSquare extends AbstractShape {
     }
     n = n1;
     //scaling: n * scale
-    return n*5;
+    return n*10;
   }
   @Override
   public void draw(Graphics g) {
@@ -84,7 +82,6 @@ public class FibonacciSquare extends AbstractShape {
     if(childQ == 0) {
       childQ=1;
     }
-    System.out.println(childQ);
     int childX=this.x;
     int childY=this.y;
     int childSize=FibonacciNumber(this.n+1);
@@ -109,6 +106,8 @@ public class FibonacciSquare extends AbstractShape {
     }
     
     children[0] = new FibonacciSquare(childX, childY, this.c, childQ,this.n+1);
+    FibonacciSquare child = (FibonacciSquare) children[0];
+    child.level+=this.level;
     return true;
   }
   
@@ -128,6 +127,12 @@ public class FibonacciSquare extends AbstractShape {
     }
     return false;
    }
+
+  @Override
+  public boolean contains(int x, int y) {
+    // TODO Auto-generated method stub
+    return false;
+  }
   
 //  @Override
 //  public String toString() {
