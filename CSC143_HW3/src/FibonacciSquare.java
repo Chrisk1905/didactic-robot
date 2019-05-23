@@ -49,34 +49,40 @@ public class FibonacciSquare extends AbstractShape {
   }
   @Override
   public void draw(Graphics g) {
-    // draw a square
-    g.setColor(c);
-    g.drawRect(x, y, size, size);
-    switch (quadrant) {
-    case 1:
-      g.drawArc(x-size, y, size*2, size*2, 0, 90);
-      break;
-    case 2:
-      g.drawArc(x, y, size*2, size*2, 90, 90);
-      break;
-    case 3:
-      g.drawArc(x, y-size, size*2, size*2, 180, 90);
-      break;
-    case 4:
-      g.drawArc(x-size, y-size, size*2, size*2, 270, 90);
-      break; 
+    //draw shapes in every level
+    // base case no more levels.
+    if(children[0]==null) {
+      return;
+    }else {
+      //else draw the shape
+      g.setColor(c);
+      g.drawRect(x, y, size, size);
+      switch (quadrant) {
+      case 1:
+        g.drawArc(x-size, y, size*2, size*2, 0, 90);
+        break;
+      case 2:
+        g.drawArc(x, y, size*2, size*2, 90, 90);
+        break;
+      case 3:
+        g.drawArc(x, y-size, size*2, size*2, 180, 90);
+        break;
+      case 4:
+        g.drawArc(x-size, y-size, size*2, size*2, 270, 90);
+        break; 
+      }
+      //call children's draw() method.
+      children[0].draw(g);
     }
   }
   
-  public Shape deepCopy() {
-    int x = this.x;
-    int y = this.y;
-    Color c = this.c;
-    int quadrant = this.quadrant;
-    int n = this.n;
-    return new FibonacciSquare(x, y, c, quadrant, n);
-  }
-  //createChildren(),getChildren()
+/**
+ * You should not call this method outside testing purposes
+ * Use addLevel to add an entire level of children
+ * Return a boolean to the model to tell it if a new level could be added.
+ * The boolean value can be relayed to the controller to tell it if the operation was successful.
+ * If a new level could not be added, then the controller displays a message box to the user explaining why
+ */
   public boolean createChildren() {
     int childQ = (this.quadrant+1)%5;
     if(childQ == 0) {
@@ -132,14 +138,7 @@ public class FibonacciSquare extends AbstractShape {
   public boolean contains(int x, int y) {
     // TODO Auto-generated method stub
     return false;
-  }
-  
-//  @Override
-//  public String toString() {
-//    return ("Fib square: {" + "x: " + this.x + ", y: " + this.y + ", color: " + this.c.toString()
-//      + ", quadrant: " + this.quadrant + ", n: " + this.n +"}");
-//  }
-  
+  }  
   
   //
 }

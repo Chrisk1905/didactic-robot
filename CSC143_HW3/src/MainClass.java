@@ -25,7 +25,6 @@ public class MainClass {
     //add level test
     //grandpa
     Shape gp = new FibonacciSquare(350, 250, Color.BLUE, 3, 1);
-    model.addShape(gp);
     
     gp.addLevel();
     
@@ -40,39 +39,43 @@ public class MainClass {
     gp.addLevel();
     Shape dc5 = dc4.getChildren()[0];
     
-    model.addShape(dc);
-    model.addShape(dc2);
-    model.addShape(dc3);
-    model.addShape(dc4);
-    model.addShape(dc5);
     
     gp.addLevel();
     Shape dc6 = dc5.getChildren()[0];
-    model.addShape(dc6);
     
     System.out.println( dc4.toString() );
     System.out.println( dc6.toString() );
+    
+    //draw method test
+    for(int i = 0; i<10;i++) {
+      gp.addLevel();
+    }
+    model.addShape(gp);
     
     //test removeLevel
     gp.removeLevel();
     System.out.println(Arrays.toString(dc5.getChildren()));
     
     //testing H createChildren
-    Shape h1 = new HShape(500,200, Color.GREEN, 400);
+    Shape h1 = new HShape(100,100, Color.GREEN, 800);
     //model.addShape(h1);
     
     h1.addLevel();
     Shape[] gen1 = h1.getChildren(); 
-    h1.addLevel();
+    
+    for(int i=0;i<7;i++) {
+      h1.addLevel();
+    }
+   
+    model.addShape(h1);
+    
+    //toString test 
+    System.out.println(gen1[0].toString());
+    System.out.println(gen1[3].getChildren()[5].toString());
     for(int i = 0; i<7; i++) {
       System.out.println(Arrays.toString(gen1[i].getChildren()));
     }
-    
-    for(Shape s: gen1) {
-      for(Shape ss: s.getChildren()) {
-        model.addShape(ss);
-      }
-    }
+
     
     model.addView(panel);
   }
