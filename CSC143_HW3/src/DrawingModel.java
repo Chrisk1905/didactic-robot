@@ -73,7 +73,8 @@ public class DrawingModel {
             FibonacciSquare castedFib = (FibonacciSquare)s;
             int[] fibBoundary = castedFib.getBoundary();
             //if the frame size is too small for the fibSquare
-            if(frameX<fibBoundary[1] || frameY<fibBoundary[3]) {
+            if(frameX<fibBoundary[1] || frameY<fibBoundary[3]
+                ||0>fibBoundary[0]||0>fibBoundary[2]) {
               s.removeLevel();
               return false;
             }
