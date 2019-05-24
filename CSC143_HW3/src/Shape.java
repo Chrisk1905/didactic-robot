@@ -17,6 +17,11 @@ public interface Shape {
   /**
    * initializes the children array
    * 
+   * You should not call this method outside testing purposes
+   * Use addLevel to add an entire level of children
+   * @Return a boolean to the model to tell it if a new level could be added.
+   * The boolean value can be relayed to the controller to tell it if the operation was successful.
+   * If a new level could not be added, then the controller displays a message box to the user explaining why
    */
   boolean createChildren();
   /**
@@ -35,9 +40,9 @@ public interface Shape {
   
   /**
    * check if the given (x,y) coordinates are in the shape
-   * @param x
-   * @param y
-   * @return
+   * @param x mouse pointer x
+   * @param y mouse pointer y
+   * @return true if in shape, false if not in shape
    */
   boolean contains(int x, int y);
   

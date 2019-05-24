@@ -14,29 +14,71 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DrawingModel {
+  // the list of shapes
   private List<Shape> shapes = new ArrayList<Shape>();
+  // the list of the views connected to this model
   private List<View> views = new ArrayList<View>();
 
+  // A client should be able to add a Shape to the model
+  public void addShape(Shape s) {
+    shapes.add(s);
+    updateAll();
+  }
+
+  // A viewer should be able to register with the model
   public void addView(View v) {
     views.add(v);
     v.update(this);
   }
 
+  // It should notify all viewers when something in the model changes.
   public void updateAll() {
     for (View v : views) {
       v.update(this);
     }
   }
 
-  public void addShape(Shape s) {
-    shapes.add(s);
-    updateAll();
-  }
-  
-  /**
-   * @return a deep copy of all shapes in the model
-   */
   public List<Shape> getShapes() {
     return shapes;
+  }
+
+  public boolean addLevel(int x, int y) {
+    boolean b = true;
+    for(Shape s : shapes) {
+      // if (x,y) is within s, add a level to s
+      if (s.contains(x,y)) {
+        b = s.addLevel();
+        if (b) {
+          updateAll();
+        }
+      }
+    }
+    return b;
+  }
+
+  public boolean removeLevel(int x, int y) {
+    boolean b = true;
+    for(Shape s : shapes) {
+      // if (x,y) is within s, remove a level from s
+      if (s.contains(x,y)) {
+        b = s.removeLevel();
+        if (b) {
+          updateAll();
+        }
+      }
+    }
+    return b;
+  }
+  
+  public void reset() {
+    for(Shape s:shapes) {
+      int level = s.getLevel();
+      for(int i=0; i<level; i++) {
+        s.removeLevel();
+      }
+      
+    }
+    updateAll();
+    
   }
 }

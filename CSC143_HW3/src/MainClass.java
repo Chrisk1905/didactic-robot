@@ -1,7 +1,12 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.util.Arrays;
+import java.util.Random;
 
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
 
 public class MainClass {
@@ -12,46 +17,58 @@ public class MainClass {
   }
 
   private static void buildGUI() {
-    JFrame frame = new JFrame();
+    JFrame frame = new JFrame("H's and Fibonacci squares");
     frame.setSize(1000, 800);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+    // What goes in the frame
     Viewer panel = new Viewer();
     frame.add(panel);
 
+    // Buttons at the top of the frame
+    JRadioButton add = new JRadioButton("Add level");
+    JRadioButton remove = new JRadioButton("Remove level");
+    JButton reset = new JButton("Reset");
+    JPanel northPanel = new JPanel();
+    northPanel.setBackground(Color.WHITE);
+    northPanel.add(add);
+    northPanel.add(remove);
+    northPanel.add(reset);
+    frame.add(northPanel, BorderLayout.NORTH);
     frame.setVisible(true);
-
-    DrawingModel model = new DrawingModel();
-    //add level test
-    //grandpa
-    Shape gp = new FibonacciSquare(450, 250, Color.BLUE, 3, 1);
     
-    for(int i=0; i<10;i++) {
-      gp.addLevel();
-    }
+  	// Connect the two radio buttons and select the add button
+  	ButtonGroup group = new ButtonGroup();
+  	group.add(add);
+  	group.add(remove);
+  	add.setSelected(true);
+  
+  	// Connect the view to a model
+  	DrawingModel model = new DrawingModel();
+  	model.addView(panel);
+  	
+  	// Create a controller
+  	Controller controller = new Controller(model);
+  	
+  	// The controller listens to the button clicks
+  	add.addActionListener(controller);
+  	remove.addActionListener(controller);
+  	reset.addActionListener(controller);
+  	// The controller listens to the mouse clicks on the display panel
+  	panel.addMouseListener(controller);
+  
+  	// Show it (execute this line last)
+  	frame.setVisible(true);
+  	
+  	Shape gp = new FibonacciSquare(350, 250, Color.BLUE, 3, 1);
     model.addShape(gp);
-    
-    //test removeLevel
-//    gp.removeLevel();
-//    System.out.println(Arrays.toString(dc5.getChildren()));
-    
-    //testing H createChildren
-    Shape h1 = new HShape(100,100, Color.GREEN, 800);
-    //model.addShape(h1);
-    
-    h1.addLevel();
-    
-    for(int i=0;i<7;i++) {
-      h1.addLevel();
-    }
-   
+      
+    Shape h1 = new HShape(500, 200, Color.GREEN, 400);
     model.addShape(h1);
-    
-    //toString test 
-    System.out.println(h1.toString());
-    System.out.println(gp.toString());
-
-    
-    model.addView(panel);
+      
+  	TextViewer text = new TextViewer();
+  	model.addView(text);
+	
   }
+  
 }

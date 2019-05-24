@@ -29,6 +29,8 @@ public class HShape extends AbstractShape {
   			g.setColor(c);
   			g.drawRect(x+(i*(size/3)), y+(j*(size/3)), size/3, size/3);
   			g.fillRect(x+(i*(size/3)), y+(j*(size/3)), size/3, size/3);
+  			i=0;
+  			j=0;
   			return;
   		} else if ((i == 1 && j == 0) || (i == 1 && j == 2)) {
   			i++;
@@ -55,28 +57,34 @@ public class HShape extends AbstractShape {
 	    }
 	  }
 	}
-
+	
+	/**
+	 * check if the given (x,y) coordinates are in the shape
+	 * @return true if the (x,y) coordinates are in the shape 
+	 *         false if the (x,y) coordinates are outside the shape
+	 *   Boundary of the shape is the box enclosing the top HShape
+	 */
 	@Override
-	public boolean contains(int x, int y) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+  public boolean contains(int x, int y) {
+    return ((x > this.x && x < this.x+this.size) && (y > this.y && y < this.y+this.size));
+  }
+
 
 /**
  *  Use addLevel to create an entire level of children
- *  you should not call this method outside testing purposes
- *  Return a boolean to the model to tell it if a new level could be added.
+ *  you should not call this method directly outside testing purposes
+ *  @Return a boolean to the model to tell it if a new level could be added.
  *  The boolean value can be relayed to the controller to tell it if the operation was successful.
  *  If a new level could not be added, then the controller displays a message box to the user explaining why
  *  (e.g. "size limit has been reached.")
  */
-	
   @Override
   public boolean createChildren() {
     if (children[6] == null) {
       int childSize = this.size/3;
-      //minimum size 6px
-      if (childSize > 5) {
+      //minimum childSize 3px
+      if (childSize > 2) {
+        //childSize + 1 too account for int division rounding errors
         //top left
         children[0] = new HShape(x, y, c, childSize+1);
         //middle left

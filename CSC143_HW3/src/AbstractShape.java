@@ -17,47 +17,52 @@ public abstract class AbstractShape implements Shape {
   protected Shape[] children;
   //generation of shape. 1 by default
   int gen;
-  
+
   public AbstractShape(int x, int y, Color c, int size) {
     this.x = x;
     this.y = y;
     this.c = c;
     this.size = size;
   }
-  
+
   /**
    * add a level of children shapes 
    * @return
    */
   public boolean addLevel() {
-    if(children[0]==null) {
-      createChildren();
-    }else {
-      for(Shape s:children) {
-        s.addLevel();
+    boolean b = false;
+    if (children[0] == null) {
+      b = createChildren();
+      return b;
+    } else {
+      for (Shape s:children) {
+        b = s.addLevel();
       }
     }
-    //to-do later
-    //return false if spiral has reached size constraint 
-    return false;
+    return b;
   }
+  
   public boolean removeLevel() {
+    boolean b = false;
     if(this.gen==1 && children[0]==null) {
       //cannot remove level when there is only 1 level
-      return false;
+      return b;
     }else if(children[0].getChildren()[0]==null){
       //if the children array of the index 0 child in this object's children array is null 
-      children[0]=null;
-      return true;
+      for(int i = 0; i<children.length;i++) {
+        children[i]=null;
+      }
+      b = true;
+      return b;
     }else {
       //go a level deeper deeper
       for(Shape s:children) {
-        return s.removeLevel();
+        b = s.removeLevel();
       }
     }
-    return false;
+    return b;
   }
-  
+
   public int getLevel() {
     if(children[0]==null) {
       return 1;
@@ -65,15 +70,15 @@ public abstract class AbstractShape implements Shape {
       return children[0].getLevel() + 1;
     }
   }
-  
+
   public Shape[] getChildren() {
     return children;
   }
-  
-  
+
+
   public String toString() {
     return ("[" + this.getClass() + ", x: " + this.x + ", y: " + this.y
-        + ", color: " + this.c.toString() + ", level:" + getLevel() + "];");
+        + ", color: " + this.c.toString() + ", level: " + getLevel() + "];");
   }
-  
+
 }
