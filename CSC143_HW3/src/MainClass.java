@@ -20,7 +20,7 @@ public class MainClass {
     JFrame frame = new JFrame("H's and Fibonacci squares");
     frame.setSize(1000, 800);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+    
     // What goes in the frame
     Viewer panel = new Viewer();
     frame.add(panel);
@@ -46,6 +46,9 @@ public class MainClass {
   	// Connect the view to a model
   	DrawingModel model = new DrawingModel();
   	model.addView(panel);
+    //Connect frame to model
+    model.setFrame(frame);
+
   	
   	// Create a controller
   	Controller controller = new Controller(model);
@@ -60,7 +63,7 @@ public class MainClass {
   	// Show it (execute this line last)
   	frame.setVisible(true);
   	
-  	Shape gp = new FibonacciSquare(350, 250, Color.BLUE, 3, 1);
+  	Shape gp = new FibonacciSquare(350, 250, Color.BLUE, 2, 1);
     model.addShape(gp);
       
     Shape h1 = new HShape(500, 200, Color.GREEN, 400);
@@ -68,7 +71,8 @@ public class MainClass {
       
   	TextViewer text = new TextViewer();
   	model.addView(text);
-	
+  	
+  	System.out.println("frame (hight,width)" + frame.getHeight()+ " "+frame.getWidth());
   }
   
 }

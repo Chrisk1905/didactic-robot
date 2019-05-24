@@ -10,8 +10,11 @@
  * It should notify all viewers when something in the model changes.  (For now, the only changes will be when a new shape is added to the drawing.)
  *
  */
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JFrame;
 
 public class DrawingModel {
   // the list of shapes
@@ -19,6 +22,7 @@ public class DrawingModel {
   // the list of the views connected to this model
   private List<View> views = new ArrayList<View>();
 
+  private JFrame frame;
   // A client should be able to add a Shape to the model
   public void addShape(Shape s) {
     shapes.add(s);
@@ -30,8 +34,18 @@ public class DrawingModel {
     views.add(v);
     v.update(this);
   }
+  
+  public void setFrame(JFrame f) {
+    if(frame ==null) {
+      frame = f;
+    }else {
+      System.out.println("Frame is already set");
+    }
+  }
 
-  // It should notify all viewers when something in the model changes.
+  /** Updates all views in model
+   *  It should notify all viewers when something in the model changes.
+   */
   public void updateAll() {
     for (View v : views) {
       v.update(this);
@@ -49,6 +63,21 @@ public class DrawingModel {
       if (s.contains(x,y)) {
         b = s.addLevel();
         if (b) {
+          //fibonacci square DYNAMIC SIZE BOUNDARY CHECK
+          //get frame boundary
+          //check if frame boundaries meet size requirements of added 
+          //fib box and update
+          if(s.getClass() == new FibonacciSquare(1,1,Color.BLACK,1,1).getClass()) {
+            int frameX = frame.getWidth();
+            int frameY = frame.getHeight();
+            FibonacciSquare castedFib = (FibonacciSquare)s;
+            int[] fibBoundary = castedFib.getBoundary();
+            //if the frame size is too small for the fibSquare
+            if(frameX<fibBoundary[1] || frameY<fibBoundary[3]) {
+              s.removeLevel();
+              return false;
+            }
+          }
           updateAll();
         }
       }

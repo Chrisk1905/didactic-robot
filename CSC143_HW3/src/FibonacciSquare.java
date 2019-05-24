@@ -103,10 +103,11 @@ public class FibonacciSquare extends AbstractShape {
    * If a new level could not be added, then the controller displays a message box to the user explaining why
    */
   public boolean createChildren() {
-    //if n+1 is greater than 10 child will be too big
-    if(this.n>9) {
-      return false;
-    }
+    //if n+1 is greater than 12 child will be too big
+    //commented out after implementing dynamic boundary check
+//    if(this.n>11) {
+//      return false;
+//    }
     int childQ = (this.quadrant+1)%5;
     if(childQ == 0) {
       childQ=1;
@@ -142,7 +143,11 @@ public class FibonacciSquare extends AbstractShape {
   
   /**
    * get the boundary of the entire spiral including children.
-   * @return an array of int[4] [0left,1right,2top,3bottom] 
+   * @return an array of int[4] [left,right,top,bottom] 
+   *  [0] = left
+   *  [1] = right
+   *  [2] = top
+   *  [3] = bottom
    */
   public int[] getBoundary(){
     Shape box = this;
@@ -192,7 +197,6 @@ public class FibonacciSquare extends AbstractShape {
    */  @Override
   public boolean contains(int pX,int pY) {
     int[] boundary = this.getBoundary();
-    System.out.println("x of first box: " + this.x + "y of first box: " + this.y);
     //boundary = [0 left, 1 right, 2 top, 3 bottom]
     if(boundary[0]<pX && boundary[1]>pX && boundary[2]<pY && boundary[3]>pY) {
       return true;
